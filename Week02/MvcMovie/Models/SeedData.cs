@@ -71,6 +71,22 @@ public static class SeedData
                 Genre = "Action",
                 Price = 9.99M,
                 Rating = "PG"
+            },
+            new Movie
+            {
+                Title = "Star Wars: Episode IV - A New Hope",
+                ReleaseDate = DateTime.Parse("1977-5-25"),
+                Genre = "Sci Fi",
+                Price = 9.99M,
+                Rating = "PG"
+            },
+            new Movie
+            {
+                Title = "Avengers: Endgame",
+                ReleaseDate = DateTime.Parse("2019-4-26"),
+                Genre = "Action",
+                Price = 12.99M,
+                Rating = "PG-13"
             }
         );
 
