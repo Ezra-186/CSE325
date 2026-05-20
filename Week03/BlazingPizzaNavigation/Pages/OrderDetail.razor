@@ -1,0 +1,55 @@
+@page "/myorders/{orderId:int}"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<div class="main">
+    @if (order == null)
+    {
+        <text>Loading...</text>
+    }
+    else
+    {
+        <div class="track-order">
+            <div class="track-order-title">
+                <h2>
+                    Order placed @order.CreatedTime.ToLongDateString()
+                </h2>
+                <p>Status: <strong>Preparing</strong></p>
+            </div>
+
+            <div class="track-order-body">
+                <div class="track-order-details">
+                    @foreach (var pizza in order.Pizzas)
+                    {
+                        <p>
+                            <strong>
+                                @(pizza.Size)" @pizza.Special.Name
+                                (@pizza.GetFormattedTotalPrice())
+                            </strong>
+                        </p>
+                    }
+
+                    <p>
+                        <strong>
+                            Total price:
+                            @order.GetFormattedTotalPrice()
+                        </strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int OrderId { get; set; }
+
+    Order order;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        order = await HttpClient.GetFromJsonAsync<Order>(
+            $"{NavigationManager.BaseUri}orders/{OrderId}");
+    }
+}
+

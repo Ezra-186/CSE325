@@ -1,0 +1,45 @@
+@page "/myorders"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<div class="main">
+    @if (orders == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (!orders.Any())
+    {
+        <h2>No orders placed</h2>
+        <a class="btn btn-success" href="">Order some pizza</a>
+    }
+    else
+    {
+        <div class="list-group orders-list">
+            @foreach (var order in orders)
+            {
+                <a href="myorders/@order.OrderId" class="list-group-item">
+                    <div class="col">
+                        <h5>@order.CreatedTime.ToLongDateString()</h5>
+                        Items:
+                        <strong>@order.Pizzas.Count()</strong>;
+                        Total price:
+                        <strong>@order.GetFormattedTotalPrice()</strong>
+                    </div>
+                    <div class="col">
+                        Status: <strong>Preparing</strong>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    List<Order> orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await HttpClient.GetFromJsonAsync<List<Order>>(
+            $"{NavigationManager.BaseUri}orders");
+    }
+}
