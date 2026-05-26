@@ -482,3 +482,10 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# macOS
+.DS_Store
+
+# .NET build output
+bin/
+obj/
